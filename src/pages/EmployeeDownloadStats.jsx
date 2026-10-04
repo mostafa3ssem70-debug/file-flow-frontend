@@ -17,25 +17,59 @@ const formatDateTime = (date) => new Intl.DateTimeFormat('ar', {
     timeStyle: 'short',
 }).format(new Date(date));
 
+const loadAccountsAndStats = async () => {
+    const [accountsResult, statsResult] = await Promise.allSettled([
+        API.get('/auth/users'),
+        API.get('/files/download-stats'),
+    ]);
+
+    if (accountsResult.status === 'rejected') {
+        throw accountsResult.reason;
+    }
+
+    const downloadStats = statsResult.status === 'fulfilled'
+        ? new Map(statsResult.value.data.map((account) => [account._id, account]))
+        : null;
+
+    return {
+        accounts: accountsResult.value.data.map((account) => {
+            const stats = downloadStats?.get(account._id);
+            return {
+                ...account,
+                downloadCount: stats?.downloadCount ?? 0,
+                downloads: stats?.downloads ?? [],
+            };
+        }),
+        statsError: statsResult.status === 'rejected'
+            ? statsResult.reason.response?.status === 404
+                ? 'تم جلب الحسابات، لكن مسار إحصاءات التنزيل غير موجود على الخادم. انشر آخر تحديث للباك إند لعرض سجل التنزيلات.'
+                : statsResult.reason.response?.data?.message || 'تم جلب الحسابات، لكن تعذر تحميل سجلات التنزيل.'
+            : '',
+    };
+};
+
 const EmployeeDownloadStats = () => {
     const [accounts, setAccounts] = useState([]);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [statsError, setStatsError] = useState('');
 
     const fetchStats = useCallback(async () => {
         setIsLoading(true);
         setError('');
+        setStatsError('');
         try {
-            const response = await API.get('/files/download-stats');
-            setAccounts(response.data);
+            const result = await loadAccountsAndStats();
+            setAccounts(result.accounts);
+            setStatsError(result.statsError);
             setSelectedEmployeeId((currentId) => (
-                response.data.some((account) => account._id === currentId)
+                result.accounts.some((account) => account._id === currentId)
                     ? currentId
-                    : response.data[0]?._id || null
+                    : result.accounts[0]?._id || null
             ));
         } catch (requestError) {
-            setError(requestError.response?.data?.message || 'تعذر تحميل إحصاءات التنزيل. حاول مرة أخرى.');
+            setError(requestError.response?.data?.message || 'تعذر تحميل الحسابات المسجلة. تحقق من الاتصال والصلاحيات ثم حاول مرة أخرى.');
         } finally {
             setIsLoading(false);
         }
@@ -44,15 +78,16 @@ const EmployeeDownloadStats = () => {
     useEffect(() => {
         let isActive = true;
 
-        API.get('/files/download-stats')
-            .then((response) => {
+        loadAccountsAndStats()
+            .then((result) => {
                 if (!isActive) return;
-                setAccounts(response.data);
-                setSelectedEmployeeId(response.data[0]?._id || null);
+                setAccounts(result.accounts);
+                setStatsError(result.statsError);
+                setSelectedEmployeeId(result.accounts[0]?._id || null);
             })
             .catch((requestError) => {
                 if (isActive) {
-                    setError(requestError.response?.data?.message || 'تعذر تحميل إحصاءات التنزيل. حاول مرة أخرى.');
+                    setError(requestError.response?.data?.message || 'تعذر تحميل الحسابات المسجلة. تحقق من الاتصال والصلاحيات ثم حاول مرة أخرى.');
                 }
             })
             .finally(() => {
@@ -99,6 +134,12 @@ const EmployeeDownloadStats = () => {
                     <button type="button" onClick={fetchStats}>إعادة المحاولة</button>
                 </div>
             )}
+            {statsError && (
+                <div className="download-stats__error" role="status">
+                    <AlertCircle size={19} />
+                    <span>{statsError}</span>
+                </div>
+            )}
 
             {isLoading && accounts.length === 0 ? (
                 <div className="download-stats__state">
@@ -143,7 +184,7 @@ const EmployeeDownloadStats = () => {
                                         </small>
                                     </span>
                                     <span className="download-stats__count">
-                                        <strong>{employee.downloadCount}</strong>
+                                        <strong>{statsError ? '—' : employee.downloadCount}</strong>
                                         <small>تنزيل</small>
                                     </span>
                                 </button>
@@ -165,7 +206,13 @@ const EmployeeDownloadStats = () => {
                                 <span className="download-stats__history-icon"><CalendarClock size={20} /></span>
                             </header>
 
-                            {selectedEmployee.downloads.length === 0 ? (
+                            {statsError ? (
+                                <div className="download-stats__empty download-stats__empty--history">
+                                    <AlertCircle size={24} />
+                                    <h3>سجل التنزيلات غير متاح</h3>
+                                    <p>بعد نشر تحديث الباك إند ستظهر هنا الملفات التي نزّلها هذا الحساب.</p>
+                                </div>
+                            ) : selectedEmployee.downloads.length === 0 ? (
                                 <div className="download-stats__empty download-stats__empty--history">
                                     <Download size={24} />
                                     <h3>لا توجد تنزيلات مسجلة</h3>
