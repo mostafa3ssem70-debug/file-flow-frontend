@@ -80,16 +80,7 @@ const Sidebar = ({ isMobileOpen = false, onNavigate }) => {
                     <span>رفع الملفات</span>
                 </NavLink>
 
-                {user?.role === 'admin' && (
-                    <NavLink
-                        to="/admin/create-user"
-                        onClick={onNavigate}
-                        style={({ isActive }) => (isActive ? { ...styles.link, ...styles.activeLink } : styles.link)}
-                    >
-                        <span style={styles.iconWrap}><UserPlus size={18} /></span>
-                        <span>إنشاء حساب جديد</span>
-                    </NavLink>
-                )}
+
 
                 {user?.role === 'admin' && (
                     <NavLink
@@ -99,6 +90,16 @@ const Sidebar = ({ isMobileOpen = false, onNavigate }) => {
                     >
                         <span style={styles.iconWrap}><ChartNoAxesColumn size={18} /></span>
                         <span>إحصائيات التنزيل</span>
+                    </NavLink>
+                )}
+                {user?.role === 'admin' && (
+                    <NavLink
+                        to="/admin/create-user"
+                        onClick={onNavigate}
+                        style={({ isActive }) => (isActive ? { ...styles.link, ...styles.activeLink } : styles.link)}
+                    >
+                        <span style={styles.iconWrap}><UserPlus size={18} /></span>
+                        <span>إنشاء حساب جديد</span>
                     </NavLink>
                 )}
             </nav>
