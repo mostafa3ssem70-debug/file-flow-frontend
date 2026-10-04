@@ -6,9 +6,11 @@ import {
     Download,
     FileText,
     RefreshCw,
+    Trash2,
     UserRound,
 } from 'lucide-react';
 import API from '../api/axios';
+import ActionAlert from '../components/ActionAlert';
 import './EmployeeDownloadStats.css';
 
 const formatDateTime = (date) => new Intl.DateTimeFormat('ar', {
@@ -53,6 +55,8 @@ const EmployeeDownloadStats = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [statsError, setStatsError] = useState('');
+    const [actionAlert, setActionAlert] = useState(null);
+    const [isDeletingLogs, setIsDeletingLogs] = useState(false);
 
     const fetchStats = useCallback(async () => {
         setIsLoading(true);
@@ -102,6 +106,45 @@ const EmployeeDownloadStats = () => {
         () => accounts.find((account) => account._id === selectedEmployeeId),
         [accounts, selectedEmployeeId],
     );
+
+    const confirmDeleteDownloads = async () => {
+        if (!selectedEmployee) return;
+
+        setIsDeletingLogs(true);
+        try {
+            await API.delete(`/files/download-stats/${selectedEmployee._id}`);
+            setAccounts((currentAccounts) => currentAccounts.map((account) => (
+                account._id === selectedEmployee._id
+                    ? { ...account, downloadCount: 0, downloads: [] }
+                    : account
+            )));
+            setActionAlert({
+                type: 'success',
+                title: 'تم حذف سجل التنزيلات',
+                message: `تم حذف جميع سجلات التنزيل الخاصة بحساب ${selectedEmployee.name}.`,
+            });
+        } catch (requestError) {
+            setActionAlert({
+                type: 'error',
+                title: 'تعذر حذف السجل',
+                message: requestError.response?.data?.message || 'حدث خطأ أثناء حذف سجلات التنزيل. حاول مرة أخرى.',
+            });
+        } finally {
+            setIsDeletingLogs(false);
+        }
+    };
+
+    const handleDeleteDownloads = () => {
+        if (!selectedEmployee || selectedEmployee.downloadCount === 0 || statsError) return;
+
+        setActionAlert({
+            type: 'confirm',
+            title: 'تأكيد حذف سجل التنزيلات',
+            message: `هل تريد حذف جميع سجلات التنزيل الخاصة بحساب ${selectedEmployee.name}؟ لا يمكن التراجع عن هذا الإجراء.`,
+            confirmLabel: 'حذف السجلات',
+            onConfirm: confirmDeleteDownloads,
+        });
+    };
 
     return (
         <section className="download-stats" dir="rtl">
@@ -207,7 +250,19 @@ const EmployeeDownloadStats = () => {
                                         {selectedEmployee.department || 'General'}
                                     </p>
                                 </div>
-                                <span className="download-stats__history-icon"><CalendarClock size={20} /></span>
+                                <div className="download-stats__history-actions">
+                                    <button
+                                        className="download-stats__delete-logs"
+                                        type="button"
+                                        onClick={handleDeleteDownloads}
+                                        disabled={selectedEmployee.downloadCount === 0 || Boolean(statsError) || isDeletingLogs}
+                                        aria-label={`حذف سجلات تنزيل ${selectedEmployee.name}`}
+                                    >
+                                        <Trash2 size={16} />
+                                        <span>حذف السجل</span>
+                                    </button>
+                                    <span className="download-stats__history-icon"><CalendarClock size={20} /></span>
+                                </div>
                             </header>
 
                             {statsError ? (
@@ -256,6 +311,12 @@ const EmployeeDownloadStats = () => {
                     )}
                 </>
             )}
+            <ActionAlert
+                alert={actionAlert}
+                onClose={() => setActionAlert(null)}
+                onConfirm={actionAlert?.onConfirm}
+                isBusy={isDeletingLogs}
+            />
         </section>
     );
 };

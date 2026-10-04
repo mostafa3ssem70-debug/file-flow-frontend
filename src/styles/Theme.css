@@ -134,6 +134,7 @@ body {
 [data-theme="dark"] .login-input-wrap,
 [data-theme="dark"] .admin-dashboard__search,
 [data-theme="dark"] .download-stats__refresh,
+[data-theme="dark"] .download-stats__delete-logs,
 [data-theme="dark"] .admin-access-modal__search,
 [data-theme="dark"] .admin-access-modal__users,
 [data-theme="dark"] .admin-access-modal__users-state,
@@ -201,6 +202,17 @@ body {
 
 [data-theme="dark"] .download-stats__refresh:hover:not(:disabled) {
     background: #273752;
+}
+
+[data-theme="dark"] .download-stats__delete-logs {
+    border-color: #654047;
+    background: #34252b;
+    color: #f0a5a5;
+}
+
+[data-theme="dark"] .download-stats__delete-logs:hover:not(:disabled) {
+    border-color: #84535b;
+    background: #432c33;
 }
 
 [data-theme="dark"] .download-stats__error {

@@ -213,6 +213,40 @@
     border-bottom: 1px solid var(--download-stats-border);
 }
 
+.download-stats__history-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.download-stats__delete-logs {
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 0 11px;
+    border: 1px solid #f0cccc;
+    border-radius: 11px;
+    background: #fff7f7;
+    color: #ad4545;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 160ms ease, border-color 160ms ease;
+}
+
+.download-stats__delete-logs:hover:not(:disabled) {
+    border-color: #e5a8a8;
+    background: #ffeded;
+}
+
+.download-stats__delete-logs:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .download-stats__history-header > div {
     min-width: 0;
 }
@@ -355,6 +389,19 @@
 
     .download-stats__employees {
         grid-template-columns: 1fr;
+    }
+
+    .download-stats__history-header {
+        align-items: flex-start;
+    }
+
+    .download-stats__history-actions {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+    }
+
+    .download-stats__delete-logs span {
+        display: none;
     }
 
     .download-stats__table th,
