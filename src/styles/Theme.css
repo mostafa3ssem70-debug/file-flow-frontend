@@ -112,7 +112,7 @@ body {
 [data-theme="dark"] .download-stats__history-header p,
 [data-theme="dark"] .download-stats__date,
 [data-theme="dark"] .download-stats__employee-info small,
-[data-theme="dark"] .download-stats__username span,
+[data-theme="dark"] .download-stats__role,
 [data-theme="dark"] .download-stats__count small,
 [data-theme="dark"] .admin-dashboard__list-heading p,
 [data-theme="dark"] .admin-file-card__meta,
@@ -124,6 +124,11 @@ body {
 [data-theme="dark"] .upload-footer,
 [data-theme="dark"] .action-alert p {
     color: var(--theme-muted);
+}
+
+[data-theme="dark"] .download-stats__employee-info .download-stats__role {
+    background: #27364d;
+    color: #b5c7e5;
 }
 
 [data-theme="dark"] .login-input-wrap,

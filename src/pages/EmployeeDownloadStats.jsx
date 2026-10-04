@@ -5,7 +5,6 @@ import {
     CalendarClock,
     Download,
     FileText,
-    LoaderCircle,
     RefreshCw,
     UserRound,
 } from 'lucide-react';
@@ -119,11 +118,13 @@ const EmployeeDownloadStats = () => {
                     type="button"
                     onClick={fetchStats}
                     disabled={isLoading}
+                    aria-label="تحديث حسابات الموظفين وسجلات التنزيل"
                 >
-                    {isLoading
-                        ? <LoaderCircle className="is-spinning" size={17} />
-                        : <RefreshCw size={17} />}
-                    <span>تحديث البيانات</span>
+                    <RefreshCw
+                        size={17}
+                        className={isLoading ? 'is-spinning' : undefined}
+                    />
+                    <span>{isLoading ? 'جارٍ التحديث...' : 'تحديث البيانات'}</span>
                 </button>
             </header>
 
@@ -141,10 +142,14 @@ const EmployeeDownloadStats = () => {
                 </div>
             )}
 
-            {isLoading && accounts.length === 0 ? (
+            {isLoading ? (
                 <div className="download-stats__state">
-                    <LoaderCircle className="is-spinning" size={28} />
-                    <span>جارٍ تحميل الحسابات وسجلات التنزيل...</span>
+                    <RefreshCw className="is-spinning" size={25} />
+                    <strong>
+                        {accounts.length === 0
+                            ? 'جارٍ تحميل الحسابات وسجلات التنزيل...'
+                            : 'جارٍ تحديث الحسابات وسجلات التنزيل...'}
+                    </strong>
                 </div>
             ) : (
                 <>
@@ -178,9 +183,8 @@ const EmployeeDownloadStats = () => {
                                     <span className="download-stats__employee-info">
                                         <strong>{employee.name}</strong>
                                         <small><Building2 size={13} />{employee.department || 'General'}</small>
-                                        <small className="download-stats__username">
-                                            @{employee.username}
-                                            <span>{employee.role === 'admin' ? 'مدير النظام' : 'موظف'}</span>
+                                        <small className="download-stats__role">
+                                            {employee.role === 'admin' ? 'مدير النظام' : 'موظف'}
                                         </small>
                                     </span>
                                     <span className="download-stats__count">

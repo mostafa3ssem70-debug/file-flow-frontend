@@ -175,12 +175,11 @@
     font-size: 11px;
 }
 
-.download-stats__employee-info .download-stats__username {
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.download-stats__username span {
+.download-stats__employee-info .download-stats__role {
+    width: fit-content;
+    padding: 3px 7px;
+    border-radius: 20px;
+    background: #f0f3fa;
     color: #596f9e;
     font-weight: 700;
 }
