@@ -1,0 +1,40 @@
+.admin-sidebar {
+    z-index: 20 !important;
+    transition: transform 220ms ease;
+}
+
+.admin-sidebar__close {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .admin-sidebar {
+        width: min(280px, 84vw) !important;
+        transform: translateX(110%);
+    }
+
+    .admin-sidebar__close {
+        position: absolute;
+        top: 15px;
+        left: 14px;
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        border-radius: 10px;
+        background: rgba(148, 163, 184, 0.12);
+        color: #e2e8f0;
+        cursor: pointer;
+    }
+
+    .admin-sidebar.is-mobile-open {
+        transform: translateX(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .admin-sidebar {
+        transition: none;
+    }
+}

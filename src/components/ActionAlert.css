@@ -1,0 +1,146 @@
+.action-alert-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.58);
+    animation: action-alert-fade-in 140ms ease-out both;
+}
+
+.action-alert {
+    position: relative;
+    width: min(100%, 410px);
+    padding: 30px 26px 24px;
+    border: 1px solid #e5eaf2;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 25px 65px rgba(15, 23, 42, 0.24);
+    text-align: center;
+    animation: action-alert-pop-in 180ms ease-out both;
+}
+
+.action-alert__close {
+    position: absolute;
+    top: 13px;
+    left: 13px;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #64748b;
+    cursor: pointer;
+}
+
+.action-alert__close:disabled {
+    cursor: wait;
+    opacity: 0.6;
+}
+
+.action-alert__icon {
+    width: 56px;
+    height: 56px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 15px;
+    border-radius: 18px;
+    background: #ecfdf5;
+    color: #16a34a;
+}
+
+.action-alert--confirm .action-alert__icon {
+    background: #fff7ed;
+    color: #ea8a13;
+}
+
+.action-alert--error .action-alert__icon {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.action-alert h2 {
+    margin: 0;
+    color: #17243e;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.action-alert p {
+    margin: 10px 0 22px;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.action-alert__actions {
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+}
+
+.action-alert__button {
+    min-width: 105px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 15px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: linear-gradient(105deg, #2563eb, #4f46e5);
+    color: #fff;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.action-alert__button--cancel {
+    border-color: #e2e8f0;
+    background: #fff;
+    color: #53657f;
+}
+
+.action-alert__button--confirm {
+    background: linear-gradient(105deg, #dc2626, #ef4444);
+}
+
+.action-alert__button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+.action-alert__spinner {
+    animation: action-alert-spin 900ms linear infinite;
+}
+
+.action-alert button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.28);
+    outline-offset: 3px;
+}
+
+@keyframes action-alert-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes action-alert-pop-in {
+    from { opacity: 0; transform: translateY(7px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes action-alert-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .action-alert-backdrop,
+    .action-alert {
+        animation: none;
+    }
+}
