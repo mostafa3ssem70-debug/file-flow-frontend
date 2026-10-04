@@ -53,7 +53,7 @@ const Login = () => {
                     <span className="login-splash__icon">
                         <FolderKanban size={42} />
                     </span>
-                    <h1>FileFlow</h1>
+                    <h1>File Flow</h1>
                     <p>نظام إدارة الملفات</p>
                     <span className="login-splash__loader" aria-label="جارٍ التحميل" />
                 </div>
@@ -71,7 +71,7 @@ const Login = () => {
                     <span className="login-card__brand-icon">
                         <FolderKanban size={22} />
                     </span>
-                    <span>FileFlow</span>
+                    <span>File Flow</span>
                 </header>
 
                 <div className="login-heading">
