@@ -65,6 +65,10 @@ body {
 [data-theme="dark"] .employee-dashboard__stat-card,
 [data-theme="dark"] .employee-dashboard__files,
 [data-theme="dark"] .admin-dashboard__empty,
+[data-theme="dark"] .download-stats__state,
+[data-theme="dark"] .download-stats__empty,
+[data-theme="dark"] .download-stats__employee,
+[data-theme="dark"] .download-stats__history,
 [data-theme="dark"] .employee-dashboard__empty,
 [data-theme="dark"] .admin-dashboard__state,
 [data-theme="dark"] .employee-dashboard__state,
@@ -80,6 +84,10 @@ body {
 [data-theme="dark"] .login-heading h1,
 [data-theme="dark"] .login-card__brand,
 [data-theme="dark"] .admin-dashboard__title-row h1,
+[data-theme="dark"] .download-stats h1,
+[data-theme="dark"] .download-stats h2,
+[data-theme="dark"] .download-stats h3,
+[data-theme="dark"] .download-stats__file-name,
 [data-theme="dark"] .admin-dashboard__list-heading h2,
 [data-theme="dark"] .admin-file-card__details h3,
 [data-theme="dark"] .employee-dashboard__title-row h1,
@@ -99,6 +107,12 @@ body {
 [data-theme="dark"] .login-secure-note,
 [data-theme="dark"] .login-page__copyright,
 [data-theme="dark"] .admin-dashboard__title-row p,
+[data-theme="dark"] .download-stats__heading p,
+[data-theme="dark"] .download-stats__section-heading p,
+[data-theme="dark"] .download-stats__history-header p,
+[data-theme="dark"] .download-stats__date,
+[data-theme="dark"] .download-stats__employee-info small,
+[data-theme="dark"] .download-stats__count small,
 [data-theme="dark"] .admin-dashboard__list-heading p,
 [data-theme="dark"] .admin-file-card__meta,
 [data-theme="dark"] .employee-dashboard__title-row p,
@@ -113,6 +127,7 @@ body {
 
 [data-theme="dark"] .login-input-wrap,
 [data-theme="dark"] .admin-dashboard__search,
+[data-theme="dark"] .download-stats__refresh,
 [data-theme="dark"] .admin-access-modal__search,
 [data-theme="dark"] .admin-access-modal__users,
 [data-theme="dark"] .admin-access-modal__users-state,
@@ -149,11 +164,43 @@ body {
 }
 
 [data-theme="dark"] .admin-file-card__department,
+[data-theme="dark"] .download-stats__employee-count,
+[data-theme="dark"] .download-stats__count,
+[data-theme="dark"] .download-stats__table th,
 [data-theme="dark"] .employee-file-card__department,
 [data-theme="dark"] .admin-dashboard__file-count {
     border-color: #394a65;
     background: #27364d;
     color: #b5c7e5;
+}
+
+[data-theme="dark"] .download-stats__table th,
+[data-theme="dark"] .download-stats__employee-count {
+    background: #27364d;
+    color: #b5c7e5;
+}
+
+[data-theme="dark"] .download-stats__avatar,
+[data-theme="dark"] .download-stats__heading-icon,
+[data-theme="dark"] .download-stats__history-icon {
+    background: #273752;
+    color: #a9beff;
+}
+
+[data-theme="dark"] .download-stats__table th,
+[data-theme="dark"] .download-stats__table td,
+[data-theme="dark"] .download-stats__history-header {
+    border-color: var(--theme-border);
+}
+
+[data-theme="dark"] .download-stats__refresh:hover:not(:disabled) {
+    background: #273752;
+}
+
+[data-theme="dark"] .download-stats__error {
+    border-color: #654047;
+    background: #34252b;
+    color: #f0a5a5;
 }
 
 [data-theme="dark"] .admin-file-card__actions,

@@ -4,6 +4,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import UploadFilePage from './pages/UploadFilePage';
 import CreateUserPage from './pages/CreateUserPage';
+import EmployeeDownloadStats from './pages/EmployeeDownloadStats';
 import DashboardLayout from './layouts/DashboardLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import ThemeToggle from './components/ThemeToggle';
@@ -48,6 +49,8 @@ function App() {
           <Route index element={<AdminDashboard />} />
 
           <Route path="upload" element={<UploadFilePage />} />
+
+          <Route path="download-stats" element={<EmployeeDownloadStats />} />
 
           <Route
             path="create-user"

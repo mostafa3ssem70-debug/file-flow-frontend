@@ -9,6 +9,7 @@ import {
     UserPlus,
     LogOut,
     FolderKanban,
+    ChartNoAxesColumn,
     X,
 } from 'lucide-react';
 
@@ -62,6 +63,7 @@ const Sidebar = ({ isMobileOpen = false, onNavigate }) => {
             <nav style={styles.navGroup}>
                 <NavLink
                     to="/admin"
+                    end
                     onClick={onNavigate}
                     style={({ isActive }) => (isActive ? { ...styles.link, ...styles.activeLink } : styles.link)}
                 >
@@ -86,6 +88,17 @@ const Sidebar = ({ isMobileOpen = false, onNavigate }) => {
                     >
                         <span style={styles.iconWrap}><UserPlus size={18} /></span>
                         <span>إنشاء حساب جديد</span>
+                    </NavLink>
+                )}
+
+                {user?.role === 'admin' && (
+                    <NavLink
+                        to="/admin/download-stats"
+                        onClick={onNavigate}
+                        style={({ isActive }) => (isActive ? { ...styles.link, ...styles.activeLink } : styles.link)}
+                    >
+                        <span style={styles.iconWrap}><ChartNoAxesColumn size={18} /></span>
+                        <span>إحصائيات التنزيل</span>
                     </NavLink>
                 )}
             </nav>
