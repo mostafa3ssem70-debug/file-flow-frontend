@@ -155,7 +155,7 @@ const Login = () => {
                     <span>اتصال آمن ومخصص لمستخدمي النظام</span>
                 </div>
             </section>
-            <p className="login-page__copyright">FileFlow <span>·</span> نظام إدارة الملفات</p>
+            <p className="login-page__copyright">File Flow <span>·</span> نظام إدارة الملفات</p>
         </main>
     );
 };
