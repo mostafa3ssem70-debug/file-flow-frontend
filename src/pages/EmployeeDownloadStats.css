@@ -175,6 +175,16 @@
     font-size: 11px;
 }
 
+.download-stats__employee-info .download-stats__username {
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.download-stats__username span {
+    color: #596f9e;
+    font-weight: 700;
+}
+
 .download-stats__count {
     min-width: 48px;
     display: grid;

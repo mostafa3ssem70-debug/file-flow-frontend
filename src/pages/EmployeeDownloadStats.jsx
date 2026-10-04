@@ -18,7 +18,7 @@ const formatDateTime = (date) => new Intl.DateTimeFormat('ar', {
 }).format(new Date(date));
 
 const EmployeeDownloadStats = () => {
-    const [employees, setEmployees] = useState([]);
+    const [accounts, setAccounts] = useState([]);
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
@@ -28,9 +28,9 @@ const EmployeeDownloadStats = () => {
         setError('');
         try {
             const response = await API.get('/files/download-stats');
-            setEmployees(response.data);
+            setAccounts(response.data);
             setSelectedEmployeeId((currentId) => (
-                response.data.some((employee) => employee._id === currentId)
+                response.data.some((account) => account._id === currentId)
                     ? currentId
                     : response.data[0]?._id || null
             ));
@@ -47,7 +47,7 @@ const EmployeeDownloadStats = () => {
         API.get('/files/download-stats')
             .then((response) => {
                 if (!isActive) return;
-                setEmployees(response.data);
+                setAccounts(response.data);
                 setSelectedEmployeeId(response.data[0]?._id || null);
             })
             .catch((requestError) => {
@@ -65,8 +65,8 @@ const EmployeeDownloadStats = () => {
     }, []);
 
     const selectedEmployee = useMemo(
-        () => employees.find((employee) => employee._id === selectedEmployeeId),
-        [employees, selectedEmployeeId],
+        () => accounts.find((account) => account._id === selectedEmployeeId),
+        [accounts, selectedEmployeeId],
     );
 
     return (
@@ -100,30 +100,30 @@ const EmployeeDownloadStats = () => {
                 </div>
             )}
 
-            {isLoading && employees.length === 0 ? (
+            {isLoading && accounts.length === 0 ? (
                 <div className="download-stats__state">
                     <LoaderCircle className="is-spinning" size={28} />
-                    <span>جارٍ تحميل إحصاءات الموظفين...</span>
+                    <span>جارٍ تحميل الحسابات وسجلات التنزيل...</span>
                 </div>
             ) : (
                 <>
                     <div className="download-stats__section-heading">
                         <div>
-                            <h2>حسابات الموظفين</h2>
-                            <p>اختر حسابًا لعرض سجل تنزيلاته.</p>
+                            <h2>جميع الحسابات المسجلة</h2>
+                            <p>اختر أي حساب لعرض سجل التنزيل المرتبط به.</p>
                         </div>
-                        <span className="download-stats__employee-count">{employees.length} موظف</span>
+                        <span className="download-stats__employee-count">{accounts.length} حساب</span>
                     </div>
 
-                    {employees.length === 0 ? (
+                    {accounts.length === 0 ? (
                         <div className="download-stats__empty">
                             <UserRound size={26} />
-                            <h3>لا توجد حسابات موظفين</h3>
-                            <p>ستظهر الحسابات هنا بعد إضافتها إلى النظام.</p>
+                            <h3>لا توجد حسابات مسجلة</h3>
+                            <p>لم يتم العثور على أي حسابات في قاعدة بيانات النظام.</p>
                         </div>
                     ) : (
                         <div className="download-stats__employees">
-                            {employees.map((employee) => (
+                            {accounts.map((employee) => (
                                 <button
                                     className={`download-stats__employee${selectedEmployeeId === employee._id ? ' is-selected' : ''}`}
                                     type="button"
@@ -137,6 +137,10 @@ const EmployeeDownloadStats = () => {
                                     <span className="download-stats__employee-info">
                                         <strong>{employee.name}</strong>
                                         <small><Building2 size={13} />{employee.department || 'General'}</small>
+                                        <small className="download-stats__username">
+                                            @{employee.username}
+                                            <span>{employee.role === 'admin' ? 'مدير النظام' : 'موظف'}</span>
+                                        </small>
                                     </span>
                                     <span className="download-stats__count">
                                         <strong>{employee.downloadCount}</strong>

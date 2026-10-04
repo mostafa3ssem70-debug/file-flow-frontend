@@ -112,6 +112,7 @@ body {
 [data-theme="dark"] .download-stats__history-header p,
 [data-theme="dark"] .download-stats__date,
 [data-theme="dark"] .download-stats__employee-info small,
+[data-theme="dark"] .download-stats__username span,
 [data-theme="dark"] .download-stats__count small,
 [data-theme="dark"] .admin-dashboard__list-heading p,
 [data-theme="dark"] .admin-file-card__meta,
